@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 
-sheet_url = "https://docs.google.com/spreadsheets/d/1YevAQ8w_BIZRZ_E2TfZh4e-4-ElVZRGXX49S_DvTirY/export?format=csv"
+sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vREwRSmi8uPgu2glLQr1q8SFiquPADCfJW2NxeZcboY_-J0THzcJq8Q1yfklQ_cUha8f1RwApOYGWi_/pub?output=csv"
 
 # Fetch the sheet
 try:
