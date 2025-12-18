@@ -1,28 +1,34 @@
 import pandas as pd
 import plotly.express as px
-from datetime import datetime
 
-# --- Google Sheet CSV export link ---
-sheet_url = "https://docs.google.com/spreadsheets/d/1FpWyWsq2x3Wi3O4StBruyxllo32JwrcXfFr5gy5CAas/export?format=csv"
+sheet_url = "https://docs.google.com/spreadsheets/d/1YevAQ8w_BIZRZ_E2TfZh4e-4-ElVZRGXX49S_DvTirY/export?format=csv"
 
-# Read sheet
-df = pd.read_csv(sheet_url)
+# Fetch the sheet
+try:
+    df = pd.read_csv(sheet_url, header=None)
+    if df.empty:
+        print("Sheet is empty! Exiting.")
+        exit()
+except Exception as e:
+    print("Error fetching sheet:", e)
+    exit()
 
-# Convert timestamp column to datetime
-df['Timestamp'] = pd.to_datetime(df['Timestamp'], format="%Y-%m-%d %H:%M:%S")
+# Name the first column "Timestamp"
+df.columns = ["Timestamp"]
 
-# Add dummy value if missing
-if 'Value' not in df.columns:
-    df['Value'] = 1
+# Convert to datetime
+df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
 
-# --- Plot ---
-fig = px.scatter(df, x='Timestamp', y='Value', text='Timestamp',
+# Add dummy value for plotting
+df["Value"] = 1
+
+# Plot
+fig = px.scatter(df, x="Timestamp", y="Value", text="Timestamp",
                  title="ESP32 Data Over Time",
                  labels={"Value": "Dummy Value"})
+fig.update_traces(marker=dict(size=8, color="red"),
+                  textposition="top center")
 
-fig.update_traces(marker=dict(size=8, color='red'),
-                  textposition='top center')
-
-# Save interactive HTML to repo
+# Save HTML
 fig.write_html("graph.html")
 print("Graph updated!")
