@@ -2,8 +2,13 @@ name: Update ESP32 Graph
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # every 30 minutes
+    - cron: '*/30 * * * *'
   workflow_dispatch:
+
+
+permissions:
+  contents: write
+
 
 jobs:
   build:
